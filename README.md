@@ -61,15 +61,16 @@ npm start
 ## File Structure
 
 ```
-root
-├── config/           → Global bot config
-├── language/         → Translations for all supported languages
-├── img/              → Assets (avatar, demo)
+tempvoice/
+├── config/                 # Global configuration
+├── img/                    # Assets (bot avatar, demo embed)
+├── language/               # Translations (multilingual support)
 └── src/
-    ├── events/       → Voice & interaction listeners
-    ├── handlers/     → Embed sender logic
-    ├── modals/       → All interaction implementations
-    └── utils/        → Helper functions (log, i18n, etc)
+    ├── core/               # Client setup and modular event binding
+    ├── events/             # Discord event listeners
+    ├── modals/             # Modal logic
+    ├── handlers/           # Embed sender and interaction controller
+    └── utils/              # Logger, translation function, embed builder
 ```
 
 ## Customization
