@@ -1,2 +1,9 @@
+# Dependency directories
 node_modules/
+
+# Environment variables
 .env
+.env.test
+
+# Lockfiles
+package-lock.json
