@@ -1,0 +1,36 @@
+# Node modules (werden über 'npm install' im Container installiert)
+node_modules
+npm-debug.log
+
+# Logs
+*.log
+logs
+*.pid
+
+# OS / Editor Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Test/coverage
+coverage
+__tests__
+*.spec.js
+*.test.js
+
+# Env files (werden zur Laufzeit per --env-file eingebunden)
+.env
+.env.*
+
+# Docker artifacts
+Dockerfile
+.dockerignore
+
+# Optional: Lokale Konfigdateien/Secrets
+config/local.json
+config/*.local.js
