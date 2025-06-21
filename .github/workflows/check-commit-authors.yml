@@ -1,0 +1,27 @@
+# .github/workflows/check-commit-authors.yml
+
+name: ❌ Blockiere Commits mit @hornbach.com
+
+on: [pull_request]
+
+jobs:
+  check-commit-emails:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 📥 Repository auschecken
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # wichtig für vollständige Commit-Historie
+
+    - name: 🔎 Überprüfe Commit-E-Mails
+      run: |
+        echo "🔍 Prüfe auf verbotene E-Mail-Adressen (@hornbach.com)..."
+        BLOCKED=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:'%h %ae' | grep -Ei '@hornbach\.com$' || true)
+
+        if [[ -n "$BLOCKED" ]]; then
+          echo "❌ Verbotene E-Mail-Adresse(n) gefunden:"
+          echo "$BLOCKED"
+          exit 1
+        else
+          echo "✅ Keine verbotenen E-Mail-Adressen gefunden."
+        fi
