@@ -11,7 +11,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/lang-JavaScript-yellow" />
   <img src="https://img.shields.io/badge/multilingual-yes-green" />
-  <img src="https://img.shields.io/badge/version-v1.0.0-blue" />
+  <img src="https://img.shields.io/badge/version-v1.4.0-blue" />
   <img src="https://img.shields.io/badge/Jevenchy-black" />
 </p>
 

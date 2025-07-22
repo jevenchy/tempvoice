@@ -1,6 +1,6 @@
 {
   "name": "tempvoice",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "A dynamic voice channel solution for Discord — temporary, controllable, and multilingual.",
   "type": "module",
   "main": "src/index.js",
