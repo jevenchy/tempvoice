@@ -1,5 +1,7 @@
+import { ChannelType } from 'discord.js'
 import { log } from '../utils/logger.js'
 import t from '../utils/t.js'
+import config from '../../config/config.js'
 
 const loggedDeleted = new Set()
 
@@ -7,13 +9,13 @@ export default async (client, oldState, newState) => {
   const oldChannel = oldState.channel
   const newChannel = newState.channel
   const member = newState.member || oldState.member
-  const lang = client.config?.language || 'en'
+  const lang = config.language
 
   if (!oldChannel && newChannel) {
     if (newChannel.id === process.env.VOICE_CHANNEL_ID) {
       const temp = await newChannel.guild.channels.create({
         name: `${member.user.username} - room`,
-        type: 2,
+        type: ChannelType.GuildVoice,
         parent: process.env.CATEGORY_CHANNEL_ID
       })
 

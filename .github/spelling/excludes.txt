@@ -1,0 +1,13 @@
+[^/]\.js$
+^\.github/
+^\.gitignore$
+^env\.example$
+^img/
+^LICENSE$
+^package\.json$
+^package-lock\.json$
+^README\.md$
+^dist/
+^node_modules/
+^\.edittorconfig$
+^\Q.eslintrc.json\E$

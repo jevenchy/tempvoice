@@ -6,4 +6,3 @@ node_modules/
 .env.test
 
 # Lockfiles
-package-lock.json

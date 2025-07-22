@@ -1,0 +1,6 @@
+Discord
+TempVoice
+dotenv
+NodeJS
+JSON
+ID
