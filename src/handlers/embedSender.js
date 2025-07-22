@@ -4,6 +4,27 @@ import {
   ButtonBuilder,
   ButtonStyle
 } from 'discord.js'
+import 'dotenv/config'
+
+const useUnicode = process.env.USE_UNICODE_EMOJI === 'true'
+
+const unicodeEmojis = {
+  name: '📝',
+  limit: '🔢',
+  privacy: '🔒',
+  dnd: '🔕',
+  region: '🌐',
+  trust: '✅',
+  untrust: '🚫',
+  block: '⛔',
+  unblock: '⭕',
+  bitrate: '🎚️',
+  invite: '📨',
+  kick: '👢',
+  claim: '🙋',
+  transfer: '🔄',
+  delete: '🗑️'
+}
 
 export const embedSender = async channel => {
   const embed = createVoiceEmbed()
@@ -30,7 +51,9 @@ export const embedSender = async channel => {
       ...buttons.map(([id, emoji, style = ButtonStyle.Secondary]) =>
         new ButtonBuilder()
           .setCustomId(id)
-          .setEmoji({ id: emoji, name: id })
+          .setEmoji(
+            useUnicode ? unicodeEmojis[id] : { id: emoji, name: id }
+          )
           .setStyle(style)
       )
     )
