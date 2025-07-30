@@ -11,7 +11,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/lang-JavaScript-yellow" />
   <img src="https://img.shields.io/badge/multilingual-yes-green" />
-  <img src="https://img.shields.io/badge/version-v1.0.0-blue" />
+  <img src="https://img.shields.io/badge/version-v1.4.0-blue" />
   <img src="https://img.shields.io/badge/Jevenchy-black" />
 </p>
 
@@ -31,7 +31,7 @@ Join once and get your own voice room — private, customizable, and temporary. 
 - Trust, block, untrust, unblock users
 - Kick, claim, or transfer ownership
 - Send invite via DM in one click
-- Multilingual: `en`, `id`, `ru`, `jp`, `cn`
+- Multilingual: `en`, `id`, `ru`, `jp`, `cn`, `de`
 - Logs every action
 
 ## Setup
@@ -50,13 +50,37 @@ CATEGORY_CHANNEL_ID=...
 EMBED_CHANNEL_ID=...
 VOICE_CHANNEL_ID=...
 LOG_CHANNEL_ID=...
+BANNER_URL=...
+USE_UNICODE_EMOJI=true
 ```
+
+`BANNER_URL` lets you specify a custom image for the embed banner.
+
+`USE_UNICODE_EMOJI` toggles Unicode emoji for dashboard buttons.
 
 Start the bot:
 
 ```bash
 npm start
 ```
+
+## Running with Docker Compose
+
+Copy `env.example` to `.env` and edit the credentials for your bot:
+
+```bash
+cp env.example .env
+# then update .env with your Discord token and channel IDs
+```
+
+Start the container:
+
+```bash
+docker compose up -d
+```
+
+Docker builds the image from the included `Dockerfile` and reads configuration
+from your `.env` file.
 
 ## File Structure
 
@@ -79,7 +103,7 @@ Adjust bot behavior easily through `config/config.js`:
 
 ```js
 export default {
-  language: 'en',        // Language (en, id, ru, jp, cn)
+  language: 'en',        // Language (en, id, ru, jp, cn, de)
   embedcode: '#2f3136',  // Default embed color
   log: true              // Enable or disable action logging
 }

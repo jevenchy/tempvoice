@@ -1,11 +1,12 @@
 {
   "name": "tempvoice",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "A dynamic voice channel solution for Discord — temporary, controllable, and multilingual.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "lint": "eslint ."
   },
   "author": "Jevenchy",
   "license": "MIT",
@@ -29,10 +30,11 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "chalk": "^5.4.1",
-    "dayjs": "^1.11.13",
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "moment": "^2.30.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.31.0"
   }
 }
