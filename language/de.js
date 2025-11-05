@@ -162,7 +162,14 @@ const de = {
   "interaction_already_active": "Es läuft bereits eine Interaktion. Bitte beende diese zuerst.",
   "invalid_category": "CATEGORY_CHANNEL_ID ist ungültig oder keine Kategorie.",
   "invalid_embed": "EMBED_CHANNEL_ID ist ungültig oder kein Textkanal.",
-  "invalid_voice": "VOICE_CHANNEL_ID ist ungültig oder kein Sprachkanal."
+  "invalid_voice": "VOICE_CHANNEL_ID ist ungültig oder kein Sprachkanal.",
+
+  // New in v2.0.0
+  "rate_limited": "Du machst das zu schnell! Versuche es in {seconds} Sekunden erneut.",
+  "max_channels_reached": "Du hast das Maximum von {max} aktiven Kanälen erreicht. Bitte schließe zuerst einen deiner bestehenden Kanäle.",
+  "inappropriate_name": "Dieser Kanalname enthält unangemessene Inhalte. Bitte wähle einen anderen Namen.",
+  "log_auto_cleanup": "{channel} wurde automatisch gelöscht (inaktiv seit {hours} Stunden).",
+  "invalid_token": "Ungültiger Bot-Token. Bitte überprüfe deine .env Datei."
 }
 
 export default de;

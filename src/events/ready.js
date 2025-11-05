@@ -2,8 +2,31 @@ import { embedSender } from '../handlers/embedSender.js'
 import { logStartup } from '../utils/logger.js'
 import config from '../../config/config.js'
 import t from '../utils/t.js'
+import { validateBotPermissions, validateChannels } from '../utils/validatePermissions.js'
+import { startAutoCleanup } from '../utils/autoCleanup.js'
 
+/**
+ * Handles the 'ready' event when bot successfully connects
+ * @param {Client} client - Discord client instance
+ */
 export default async client => {
+  // Validate channels exist and are accessible
+  const channelValidation = await validateChannels(client)
+  if (!channelValidation.valid) {
+    for (const error of channelValidation.errors) {
+      logStartup(`❌ ${error}`)
+    }
+    logStartup('Please check your .env configuration and try again.')
+    process.exit(1)
+  }
+
+  // Validate bot permissions
+  const hasPermissions = await validateBotPermissions(client)
+  if (!hasPermissions) {
+    logStartup('Cannot start without required permissions.')
+    process.exit(1)
+  }
+
   const guild = await client.guilds.fetch(process.env.GUILD_ID)
   const channels = await guild.channels.fetch()
 
@@ -13,21 +36,6 @@ export default async client => {
   const log = process.env.LOG_CHANNEL_ID
     ? channels.get(process.env.LOG_CHANNEL_ID)
     : null
-
-  if (!category || category.type !== 4) {
-    logStartup(t('invalid_category'))
-    process.exit(1)
-  }
-
-  if (!embed || !['GUILD_TEXT', 0].includes(embed.type)) {
-    logStartup(t('invalid_embed'))
-    process.exit(1)
-  }
-
-  if (!voice || !['GUILD_VOICE', 2].includes(voice.type)) {
-    logStartup(t('invalid_voice'))
-    process.exit(1)
-  }
 
   await embedSender(embed)
 
@@ -41,6 +49,11 @@ export default async client => {
   logStartup('Loaded modals:')
 
   for (const name of client.modals.keys()) {
-    logStartup(`${name}`)
+    logStartup(`  - ${name}`)
   }
+
+  // Start auto-cleanup scheduler
+  startAutoCleanup(client)
+
+  logStartup('🚀 Bot is ready!')
 }

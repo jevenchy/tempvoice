@@ -1,7 +1,7 @@
 {
   "name": "tempvoice",
-  "version": "1.4.0",
-  "description": "A dynamic voice channel solution for Discord — temporary, controllable, and multilingual.",
+  "version": "2.0.0",
+  "description": "A dynamic voice channel solution for Discord — temporary, controllable, and multilingual with database persistence and advanced features.",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
@@ -30,9 +30,9 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
-    "moment": "^2.30.1"
+    "better-sqlite3": "^11.7.0"
   },
   "devDependencies": {
     "eslint": "^9.31.0"

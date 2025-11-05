@@ -2,15 +2,30 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { Collection } from 'discord.js'
+import handleReady from '../events/ready.js'
+import handleInteractionCreate from '../events/interactionCreate.js'
+import handleVoiceStateUpdate from '../events/voiceStateUpdate.js'
+import handleChannelUpdate from '../events/channelUpdate.js'
+import { initDatabase, loadTempChannelsToMemory } from '../utils/database.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+/**
+ * Initializes the Discord bot with all required handlers and configurations
+ * @param {Client} client - Discord.js client instance
+ */
 export default async function initializeBot(client) {
+  // Initialize database
+  initDatabase()
+
   client.activeInteractions = new Set()
   client.modals = new Collection()
-  client.tempVoiceOwners = new Map()
 
+  // Load temp channels from database into memory
+  client.tempVoiceOwners = loadTempChannelsToMemory()
+
+  // Load all modal handlers dynamically
   const modalsDir = path.join(__dirname, '../modals')
   const modalFiles = fs.readdirSync(modalsDir).filter(f => f.endsWith('.js') && f !== 'index.js')
 
@@ -20,23 +35,9 @@ export default async function initializeBot(client) {
     client.modals.set(name, modal)
   }
 
-  client.once('ready', async () => {
-    const { default: handleReady } = await import('../events/ready.js')
-    handleReady(client)
-  })
-
-  client.on('interactionCreate', async interaction => {
-    const { default: handler } = await import('../events/interactionCreate.js')
-    handler(client, interaction)
-  })
-
-  client.on('voiceStateUpdate', async (oldState, newState) => {
-    const { default: handler } = await import('../events/voiceStateUpdate.js')
-    handler(client, oldState, newState)
-  })
-
-  client.on('channelUpdate', async (oldChannel, newChannel) => {
-    const { default: handler } = await import('../events/channelUpdate.js')
-    handler(client, oldChannel, newChannel)
-  })
+  // Register event handlers (imported once, not on every event)
+  client.once('ready', () => handleReady(client))
+  client.on('interactionCreate', interaction => handleInteractionCreate(client, interaction))
+  client.on('voiceStateUpdate', (oldState, newState) => handleVoiceStateUpdate(client, oldState, newState))
+  client.on('channelUpdate', (oldChannel, newChannel) => handleChannelUpdate(client, oldChannel, newChannel))
 }
