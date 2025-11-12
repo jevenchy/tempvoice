@@ -13,7 +13,13 @@ import { MessageFlags } from 'discord-api-types/v10'
 import { log } from '../utils/logger.js'
 import t from '../utils/t.js'
 import config from '../../config/config.js'
+import { globalRateLimiter } from '../utils/rateLimit.js'
 
+/**
+ * Handles all interaction events (buttons, modals, menus)
+ * @param {Client} client - Discord client instance
+ * @param {Interaction} interaction - Discord interaction object
+ */
 export default async (client, interaction) => {
   try {
     const id = interaction.customId
@@ -26,6 +32,17 @@ export default async (client, interaction) => {
     const isButton = interaction.isButton?.()
     const isStringMenu = interaction.isStringSelectMenu?.()
     const isUserMenu = interaction.componentType === ComponentType.UserSelect
+
+    // Rate limiting check for buttons (not modals or menus as they are follow-ups)
+    if (isButton && userId) {
+      if (globalRateLimiter.isRateLimited(userId)) {
+        const resetTime = Math.ceil(globalRateLimiter.getTimeUntilReset(userId) / 1000)
+        return interaction.reply({
+          content: t('rate_limited', lang, { seconds: resetTime }) || `You're doing that too fast! Try again in ${resetTime} seconds.`,
+          flags: MessageFlags.Ephemeral
+        }).catch(() => {})
+      }
+    }
 
     if (isModal) {
       const modal = modals.get(id)
